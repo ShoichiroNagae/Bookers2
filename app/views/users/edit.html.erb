@@ -1,0 +1,24 @@
+  <p id="notice"></p>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-md-8 col-lg-5 px-5 px-sm-0 mx-auto">
+        <h2>User info</h2>
+        <% if @user.errors.any? %>
+          <%= @user.errors.count %>件のエラーが発生しました
+            <ul>
+              <% @user.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          <% end %>
+        <%= form_with model: @user do |form| %>
+          <!-- フォームの他の部分 -->
+          <div><%= form.text_area :name %></div>
+          <div><%= form.file_field :profile_image, accept: "image/*" %></div>
+          <div><%= form.text_area :introduction %></div>
+          <div><%= form.submit %></div>
+        <% end %>
+        <!--</form>-->
+      </div>
+    </div>
+  </div>

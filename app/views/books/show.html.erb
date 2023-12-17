@@ -1,0 +1,34 @@
+<!-- ユーザーの詳細 -->
+<main>
+  <div><%= flash[:notice] %></div>
+  <div class="container px-5 px-sm-0">
+    <div class="row">
+      <div class="col-md-3">
+        <!--部分テンプレート-->
+        <%= render 'users/userintro', user: @user,book: @book%>
+      </div>
+      <div class="col-md-8 offset-md-1">
+        <h2>Book detail</h2>
+        <table class="table">
+        	<tbody>
+        	  <tr>
+              <td>
+                <%= link_to user_path(@user.id) do %>
+                  <%= image_tag @user.get_profile_image(100,100) %>
+                  <br>
+                  <%= @user.name %>
+                <% end %>
+              </td>
+                <td><%= link_to @tmp.title , book_path(@tmp.id) %></a></td>
+                <td><%= @tmp.body %></td>
+                <% if @user.id == current_user.id%>
+                <td> <%= link_to 'Edit', edit_book_path(@tmp.id),class: "btn btn-sm btn-success" %></td>
+                <td> <%= link_to 'Destroy', book_path(@tmp.id) , method: :delete , data: { confirm: "【確認】削除してもよろしいですか？" } %></td>
+                <% end %>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <main>
+    <head>
+      <title>Bookers2Ver2</title>
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <%= csrf_meta_tags %>
+      <%= csp_meta_tag %>
+
+      <script src="https://kit.fontawesome.com/f33b60351d.js" crossorigin="anonymous"></script>
+      <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+      <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    </head>
+
+    <body>
+      <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <div class="container">
+            <!--左上のBookersナビの遷移-->
+            <%= link_to root_path, class: 'nav-link text-light' do %>
+              <span>Bookers</span>
+            <% end %>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <ul class="navbar-nav ml-auto">
+                <% if user_signed_in? %>
+                  <!--Homesへ遷移するボタン-->
+                  <li>
+                    <%= link_to user_path(current_user.id), class: 'nav-link text-light' do %>
+                    <i class="fa-solid fa-home" aria-hidden="true"></i> Home
+                    <% end %>
+                  </li>
+                  <!--Usersへ遷移するボタン-->
+                  <li>
+                    <%= link_to users_path, class:'nav-link text-light' do %>
+                      <i class="fa-solid fa-users" aria-hidden="true"></i> Users
+                    <% end %>
+                  </li>
+                  <!--Booksへ遷移するボタン-->
+                  <li>
+                    <%= link_to books_path, class:'nav-link text-light' do %>
+                      <i class="fa-solid fa-book-open" aria-hidden="true"></i> Books
+                    <% end %>
+                  </li>
+                  <!--Log outへ遷移するボタン-->
+                  <li>
+                    <%= link_to destroy_user_session_path, method: :delete, class:'nav-link text-light' do %>
+                      <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Log out
+                    <% end %>
+                  </li>
+                <% else %>
+                  <!--Homesへ遷移するボタン-->
+                  <li>
+                    <%=link_to root_path, class: 'nav-link text-light' do %>
+                    <i class="fa-solid fa-home" aria-hidden="true"></i> Home
+                    <% end %>
+                  </li>
+                  <!--Aboutへ遷移するボタン-->
+                  <li>
+                    <%= link_to about_path, class:'nav-link text-light' do %>
+                      <i class="fa-solid fa-link" aria-hidden="true"></i> About
+                    <% end %>
+                  </li>
+                  <!--Sign Upへ遷移するボタン-->
+                  <li>
+                    <%= link_to new_user_registration_path, class:'nav-link text-light' do %>
+                      <i class="fa-solid fa-user-plus" aria-hidden="true"></i> Sign up
+                    <% end %>
+                  </li>
+                  <!--Log inへ遷移するボタン-->
+                  <li>
+                    <%= link_to new_user_session_path, class:'nav-link text-light' do %>
+                      <i class="fa-solid fa-right-to-bracket" aria-hidden="true"></i> Log in
+                    <% end %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <%= yield %>
+    </body>
+  </main>
+</html>

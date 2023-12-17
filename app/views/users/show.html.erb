@@ -1,0 +1,41 @@
+<!-- ユーザーの詳細 -->
+<main>
+  <div><%= flash[:notice] %></div>
+  <div class="container px-5 px-sm-0">
+    <div class="row">
+      <div class="col-md-3">
+        <%= render 'users/userintro', user: @user,book: @book %>
+      </div>
+      <div class="col-md-8 offset-md-1">
+        <h2>Books</h2>
+          <table class="table table-hover table-inverse">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Title</th>
+                <th>Opinion</th>
+                <th colspan="3"></th>
+              </tr>
+            </thead>
+            <!--このユーザーが投稿した本の一覧を書きたい-->
+            <tbody>
+              <!--投稿されている本を全て取得する-->
+              <% @tmp.each do |tmp| %>
+                <% if tmp.user_id == @user.id %>
+                  <tr>
+                    <td>
+                      <%= link_to user_path(tmp.user_id) do %>
+                        <%= image_tag tmp.user.get_profile_image(100,100) %>
+                      <% end %>
+                    </td>
+                    <td><%= link_to tmp.title , book_path(tmp.id) %></a></td>
+                    <td><%= tmp.body %></td>
+                  </tr>
+                <% end %>
+              <% end %>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+</main>
