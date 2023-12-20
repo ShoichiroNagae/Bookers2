@@ -4,9 +4,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  # Userモデルに対して、PostImageモデルが1:Nになるような記述
+  # Userモデルに対して、booksモデルが1:Nになるような記述
   has_many :books, dependent: :destroy
 
+  has_many :book_comments,dependent: :destroy
+  has_many :favorites, dependent: :destroy
   validates :name, presence: true, uniqueness: true, length: { minimum: 2, maximum: 20 }
   validates :introduction, length: { maximum: 50 }
 

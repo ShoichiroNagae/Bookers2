@@ -1,34 +1,66 @@
 <!-- ユーザーの詳細 -->
-<main>
-  <div><%= flash[:notice] %></div>
-  <div class="container px-5 px-sm-0">
-    <div class="row">
-      <div class="col-md-3">
-        <!--部分テンプレート-->
-        <%= render 'users/userintro', user: @user,book: @book%>
-      </div>
-      <div class="col-md-8 offset-md-1">
-        <h2>Book detail</h2>
-        <table class="table">
-        	<tbody>
-        	  <tr>
-              <td>
-                <%= link_to user_path(@user.id) do %>
-                  <%= image_tag @user.get_profile_image(100,100) %>
-                  <br>
-                  <%= @user.name %>
+<div><%= flash[:notice] %></div>
+<div class="container px-5 px-sm-0">
+  <div class="row">
+    <div class="col-md-3">
+      <!--部分テンプレート-->
+      <%= render 'users/userintro', user: @user,book: @book%>
+    </div>
+    <div class="col-md-8 offset-md-1">
+      <h2>Book detail</h2>
+      <table class="table">
+      	<tbody>
+      	  <tr>
+            <td>
+              <%= link_to user_path(@user.id) do %>
+                <%= image_tag @user.get_profile_image(100,100) %>
+                <br>
+                <%= @user.name %>
+              <% end %>
+            </td>
+              <td><%= link_to @tmp.title , book_path(@tmp.id) %></td>
+              <td><%= @tmp.body %></td>
+              <% if @user.id == current_user.id%>
+              <td> <%= link_to 'Edit', edit_book_path(@tmp.id),class: "btn btn-sm btn-success" %></td>
+              <td> <%= link_to 'Destroy', book_path(@tmp.id) , method: :delete , data: { confirm: "【確認】削除してもよろしいですか？" } %></td>
+              <% end %>
+            <!--いいね表示機能-->
+            <td>
+              <% if @tmp.favorited_by?(current_user) %>
+                <p>
+                  <%= link_to book_favorite_path(@tmp), method: :delete do %>
+                    ♥<%= @tmp.favorites.count %>
+                  <% end %>
+                </p>
+                <% else %>
+                <p>
+                  <%= link_to book_favorite_path(@tmp), method: :post do %>
+                    ♡<%= @tmp.favorites.count %>
+                  <% end %>
+                </p>
+              <% end %>
+            </td>
+            <!--コメント表示機能-->
+            <td>
+              <p>コメント件数：<%= @tmp.book_comments.count %></p>
+              <% @tmp.book_comments.each do |book_comment| %>
+                <p><%= image_tag book_comment.user.get_profile_image(100,100) %></p>
+                <%= book_comment.user.name %>
+                <%= book_comment.created_at.strftime('%Y/%m/%d') %><%= book_comment.comment %>
+                <% if book_comment.user = current_user %>
+                  <%= link_to "削除", book_book_comment_path(book_comment.book,book_comment),method: :delete %>
                 <% end %>
-              </td>
-                <td><%= link_to @tmp.title , book_path(@tmp.id) %></a></td>
-                <td><%= @tmp.body %></td>
-                <% if @user.id == current_user.id%>
-                <td> <%= link_to 'Edit', edit_book_path(@tmp.id),class: "btn btn-sm btn-success" %></td>
-                <td> <%= link_to 'Destroy', book_path(@tmp.id) , method: :delete , data: { confirm: "【確認】削除してもよろしいですか？" } %></td>
-                <% end %>
-            </tr>
-          </tbody>
-        </table>
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div>
+        <%= form_with model: [@tmp, @book_comment] do |f| %>
+          <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
+          <%= f.submit "送信する" %>
+        <% end %>
       </div>
     </div>
   </div>
-</main>
+</div>
