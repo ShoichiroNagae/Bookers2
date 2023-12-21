@@ -33,14 +33,16 @@
                     <td>
                       <% if tmp.favorited_by?(current_user) %>
                         <p>
-                          <%= link_to book_favorite_path(tmp), method: :delete do %>
-                            ♥<%= tmp.favorites.count %>
+                          <i class="fa fa-heart" aria-hidden="true"></i>
+                          <%= link_to book_favorites_path(tmp), method: :delete do %>
+                            <%= tmp.favorites.count %>
                           <% end %>
                         </p>
                         <% else %>
                         <p>
-                          <%= link_to book_favorite_path(tmp), method: :post do %>
-                            ♡<%= tmp.favorites.count %>
+                          <i class="fa fa-heart" aria-hidden="true"></i>
+                          <%= link_to book_favorites_path(tmp), method: :post do %>
+                            <%= tmp.favorites.count %>
                           <% end %>
                         </p>
                       <% end %>
